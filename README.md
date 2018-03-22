@@ -3,6 +3,9 @@ JQuery版命令窗模拟器
 
 [vue-terminal-emulator](https://github.com/dongsuo/vue-terminal-emulator "vue-terminal-emulator")的jQuery复刻版
 
+
+[demo](http://47.96.31.197/terminal/index.html "demo")
+
 ### 安装
 > 引入lxh-terminal.min.css, jQuery.js, lxh-terminal.min.js 即可
 
