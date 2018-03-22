@@ -30,7 +30,7 @@
                 commands: {},
                 element: '.terminal-container',
                 loadingTime: 500,
-                width: '90%',
+                width: '98%',
                 height: '500px',
                 histories: []
             },
@@ -73,7 +73,7 @@
                 version: {
                     description: 'Return this project version.',
                     handle: [
-                        {content: 'v1.0.2', style: system}
+                        {content: 'v1.0.3', style: system}
                     ]
                 }
             },
@@ -247,6 +247,13 @@
 
             },
 
+            scrollTop: function () {
+                var cls = '.end-input', t = this;
+                t.$el.find(cls).remove();
+                t.$win.append('<input class="end-input" value="test" style="opacity:0;height:0;line-height:0">');
+                t.$el.find(cls).focus();
+            },
+
             /**
              * loading效果
              *
@@ -279,6 +286,8 @@
              */
             append: function (content) {
                 this.$win.append(content);
+                this.scrollTop();
+
                 bind(this);
             },
 
@@ -396,7 +405,7 @@
                 // 光标选中以及移动到最后
                 focus: function (e) {
                     var $input = terminal.$el.find('.input-box'),
-                        $last = $(e.currentTarget).find(lastLineClass);
+                        $last = terminal.$el.find(lastLineClass);
 
                     $input.focus();
                     $input.off('click').click(function () {
@@ -463,9 +472,9 @@
          *
          * @param rows
          * @param next
-         * @param useTime
+         * @param unprefix
          */
-        function render_rows(rows, next, useTime) {
+        function render_rows(rows, next, unprefix) {
             var message = rows.shift();
 
             if (message) {
@@ -476,7 +485,7 @@
 
             function render() {
                 _t.append(
-                    _t.builder.line(translator.trans(message[content]), message[style], message[label], useTime)
+                    _t.builder.line(translator.trans(message[content]), message[style], message[label], unprefix)
                 );
 
                 if (message = rows.shift()) {
@@ -527,6 +536,8 @@
 
     Translator.prototype = {
         trans: function (text, replaces) {
+            if (typeof text == 'object') return text;
+
             replaces = replaces && typeof replaces.splice == 'function' ? replaces : [replaces];
 
             var i = -1;
@@ -602,13 +613,13 @@
              * @param label
              * @returns {*}
              */
-            line: function (content, type, label, useTime) {
+            line: function (content, type, label, unprefix) {
                 var prompt = '';
-                if (! type && ! label) {
+                if (! type && ! label && ! unprefix) {
                     prompt = this.prompt() + ' ';
                 }
 
-                if (useTime) prompt = time() + ' ' + prompt;
+                // if (unprefix) prompt = time() + ' ' + prompt;
 
                 if (type && !label) label = type;
 
