@@ -36,7 +36,7 @@
             },
             defCommands = {
                 help: {
-                    handle: function (resolve, reject) {
+                    handle: function (input, resolve, reject) {
                         var commands = _t.commands(), i, content = '', builder = _t.builder;
 
                         for (i in commands) {
@@ -73,7 +73,7 @@
                 version: {
                     description: 'Return this project version.',
                     handle: [
-                        {content: 'v1.0.1', style: system}
+                        {content: 'v1.0.2', style: system}
                     ]
                 }
             },
@@ -333,7 +333,7 @@
                     return false;
                 }
 
-                var res = builder.line(command);
+                var res = builder.line(input);
                 command = commands[command];
 
                 switch (typeof command.handle) {
@@ -342,7 +342,7 @@
                     case 'object':
                         return res + build_lines(command.handle);
                     case 'function':
-                        async_run(command.handle).then(function (success) {
+                        async_run(_n, command.handle).then(function (success) {
                             _t.done();
                             _t.append(
                                 builder.line(res + build_lines(success)) + builder.lastLine()
@@ -379,13 +379,13 @@
          * @param handle
          * @returns {*}
          */
-        function async_run(handle) {
+        function async_run(input, handle) {
             var p = $.Deferred();
 
             _t.loading();
 
             setTimeout(function () {
-                handle(p.resolve, p.reject)
+                handle(input, p.resolve, p.reject)
             }, 1);
 
             return p.promise();
