@@ -67,7 +67,7 @@
                 document: {
                     description: 'Document of this project.',
                     handle: [
-                        {content: 'Under Construction.', style: error}
+                        {content: '<a href="https://github.com/jqhph/jquery-terminal-emulator" target="_blank">https://github.com/jqhph/jquery-terminal-emulator</a>', style: primary}
                     ]
                 },
                 version: {
