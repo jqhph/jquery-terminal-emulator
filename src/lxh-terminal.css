@@ -201,8 +201,8 @@
     display: inline-block;
     width: 0;
     overflow: hidden;
-    animation: load 0.5s step-end infinite;
-    -webkit-animation: load 0.5s step-end infinite
+    animation: load 1s step-end infinite;
+    -webkit-animation: load 1s step-end infinite
 }
 
 @keyframes load {

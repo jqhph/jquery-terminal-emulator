@@ -71,9 +71,9 @@
                     ]
                 },
                 version: {
-                    description: 'The version of this project.',
+                    description: 'Return this project version.',
                     handle: [
-                        {content: 'v1.0.0', style: system}
+                        {content: 'v1.0.1', style: system}
                     ]
                 }
             },
@@ -150,9 +150,9 @@
          *
          * @returns {Array|Terminal.messages|*|$.validator.defaults.messages|{}|defaults.messages}
          */
-         this.messages = function () {
-             return options.messages;
-         };
+        this.messages = function () {
+            return options.messages;
+        };
 
         /**
          * 获取命令数据
@@ -211,9 +211,9 @@
                 var headerStart = '<div class="terminal"><div style="position:relative">',
                     footerEnd = '</div></div>',
                     bodyStart = '<div class="terminal-w-c" style="position:absolute;top:0;left:0;right:0;overflow:auto;margin-top:25px;z-index:1;max-height:'
-                            + this.option('height') + '" ><div class="terminal-window" >',
+                        + this.option('height') + '" ><div class="terminal-window" >',
                     bodyEnd = '</div></div>';
-                    _t = this;
+                _t = this;
 
                 this.html = headerStart
                     + this.builder.header()
@@ -343,10 +343,12 @@
                         return res + build_lines(command.handle);
                     case 'function':
                         async_run(command.handle).then(function (success) {
+                            _t.done();
                             _t.append(
                                 builder.line(res + build_lines(success)) + builder.lastLine()
                             );
                         }, function (err) {
+                            _t.done();
                             _t.append(
                                 builder.line(res) +
                                 builder.line(translator.trans('Something went wrong!'), error) +
@@ -379,6 +381,8 @@
          */
         function async_run(handle) {
             var p = $.Deferred();
+
+            _t.loading();
 
             setTimeout(function () {
                 handle(p.resolve, p.reject)
@@ -697,5 +701,5 @@
     }
 
     init();
-   
+
 })(window);
