@@ -39,22 +39,22 @@ message对象支持如下3个字段：
 1.字符串格式
 ```javascript
 {
-	string: {
-		description: '输入“string”运行',
-	    handle: '这是一条测试命令'
-	},
+    string: {
+        description: '输入“string”运行',
+            handle: '这是一条测试命令'
+    },
     ...
 }
 ```
 2.数组格式（message）
 ```javascript
 {
-	array: {
-		description: '输入“array”运行',
-	    handle: [
-			{content: '第一行', style: info, label: '1'}, ...
-		]
-	},
+    array: {
+        description: '输入“array”运行',
+        handle: [
+           {content: '第一行', style: info, label: '1'}, ...
+        ]
+    },
     ...
 }
 ```
