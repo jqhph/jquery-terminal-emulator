@@ -73,7 +73,7 @@
                 version: {
                     description: 'Return this project version.',
                     handle: [
-                        {content: 'v1.0.3', style: system}
+                        {content: 'v1.0.4', style: system}
                     ]
                 }
             },
