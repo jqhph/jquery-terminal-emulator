@@ -106,7 +106,8 @@
 
 .terminal  p .success {
     padding: 2px 3px;
-    background: #27ae60
+    background: #27ae60;
+    color:#fff!important;
 }
 
 .terminal  p .error {
