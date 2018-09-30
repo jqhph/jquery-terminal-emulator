@@ -85,22 +85,22 @@
 }
 
 .terminal p .info {
-    padding: 2px 3px;
+    padding: 2px 3px;color:#fff!important;;
     background: #2980b9
 }
 
 .terminal  p .primary {
-    padding: 2px 3px;
+    padding: 2px 3px;color:#fff!important;;
     background: #167ccb
 }
 
 .terminal  p .purple {
-    padding: 2px 3px;
+    padding: 2px 3px;color:#fff!important;;
     background: #5b69bc
 }
 
 .terminal  p .warning {
-    padding: 2px 3px;
+    padding: 2px 3px;color:#fff!important;;
     background: #f39c12
 }
 
@@ -111,17 +111,17 @@
 }
 
 .terminal  p .error {
-    padding: 2px 3px;
+    padding: 2px 3px;color:#fff!important;;
     background: #c0392b
 }
 
 .terminal  p .system {
-    padding: 2px 3px;
+    padding: 2px 3px;color:#fff!important;;
     background: #399c9c
 }
 
 .terminal .terminal-window pre {
-    display: inline
+    display: inline;background:transparent!important;border:0!important;color:#fff!important;;
 }
 
 .terminal .header ul.shell-dots li {
