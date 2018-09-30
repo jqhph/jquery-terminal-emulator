@@ -21,7 +21,7 @@
             def = {
                 title: 'Lxh Terminal',
                 locale: 'en',
-                langs: {en: {}, 'zh-cn': {}},
+                langs: {en: {}, 'zh-CN': {}},
                 start: 'Welcome to %s.',
                 end: [
                     {content: helpText, style: system}
@@ -30,7 +30,7 @@
                 commands: {},
                 element: '.terminal-container',
                 loadingTime: 500,
-                width: '98%',
+                width: '100%',
                 height: '500px',
                 histories: []
             },
@@ -208,9 +208,9 @@
              * 渲染terminal界面
              */
             render: function () {
-                var headerStart = '<div class="terminal"><div style="position:relative">',
+                var headerStart = '<div class="terminal"><div style="position:relative">', // style="position:relative"
                     footerEnd = '</div></div>',
-                    bodyStart = '<div class="terminal-w-c" style="position:absolute;top:0;left:0;right:0;overflow:auto;margin-top:25px;z-index:1;max-height:'
+                    bodyStart = '<div class="terminal-w-c" style="position:absolute;top:0;left:0;right:0;overflow:auto;margin-top:25px;z-index:1;max-height:' // position:absolute;
                         + this.option('height') + '" ><div class="terminal-window" >',
                     bodyEnd = '</div></div>';
                 _t = this;
@@ -245,6 +245,14 @@
                     });
                 }, true);
 
+                this.afterRender();
+            },
+
+            afterRender: function () {
+                _t.$el.find('.terminal').css({
+                    "height": _t.option('height'),
+                    "margin-bottom": "25px"
+                });
             },
 
             scrollTop: function () {
@@ -450,7 +458,7 @@
         }
 
         function show_for_input($input, val) {
-            return $input.parent().find('.content').html(val);
+            return $input.parent().find('.__content').html(val);
         }
 
         // 移动光标
@@ -679,6 +687,9 @@
             },
 
             span: function (cls, content) {
+                if (cls == 'content') {
+                    cls = '__'+cls
+                }
                 return '<span '+ is_color(cls || '') +'>'+translator.trans(value.call(this, content))+'</span>'
             }
 
@@ -705,6 +716,7 @@
         w.LxhTerminal = Terminal;
 
         $.fn.lxhTerminal = function (options) {
+            options = options || {};
             options.element = $(this);
 
             return new Terminal(options);
