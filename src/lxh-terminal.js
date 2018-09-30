@@ -171,7 +171,7 @@
         this.command = function (name, description, handle) {
             options.commands[name] = {description: description, handle: handle};
 
-            options.supportingCommands[name] = 1;
+            _t.supportingCommands[name] = 1;
         };
 
         /**
