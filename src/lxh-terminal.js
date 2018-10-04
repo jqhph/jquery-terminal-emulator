@@ -47,17 +47,6 @@
                         resolve(builder.row(builder.cmd(translator.trans('Here is a list of supporting command.'))) + content);
                     }
                 },
-                author: {
-                    description: 'About author.',
-                    handle: [
-                        {content: 'Jiang QingHua.', style: info, label: 'Name:'},
-                        {content: (new Date().getFullYear() - 1993), style: info, label: 'Age:'},
-                        {content: 'Under Construction.', style: info, label: 'Website:'},
-                        {content: '841324345@qq.com', style: info, label: 'Email:'},
-                        {content: '<a href="https://github.com/jqhph" target="_blank">https://github.com/jqhph</a>', style: info, label: 'Github:' },
-                        {content: '841324345', style: info, label: 'QQ:'}
-                    ],
-                },
                 readme: {
                     description: 'About this project.',
                     handle: [
@@ -73,7 +62,7 @@
                 version: {
                     description: 'Return this project version.',
                     handle: [
-                        {content: 'v1.0.4', style: system}
+                        {content: 'v1.0.5', style: system}
                     ]
                 }
             },
@@ -259,7 +248,7 @@
                 var cls = '.end-input', t = this;
                 t.$el.find(cls).remove();
                 t.$win.append('<input class="end-input" value="test" style="opacity:0;height:0;line-height:0">');
-                t.$el.find(cls).focus();
+                // t.$el.find(cls).focus();
             },
 
             /**
@@ -291,12 +280,13 @@
              * 追加内容
              *
              * @param content
+             * @param focus 是否自动选中光标
              */
-            append: function (content) {
+            append: function (content, focus) {
                 this.$win.append(content);
                 this.scrollTop();
 
-                bind(this);
+                bind(this, focus);
             },
 
             /**
@@ -317,7 +307,7 @@
                 }
 
                 this.append(
-                    content + builder.lastLine()
+                    content + builder.lastLine(), true
                 );
             },
 
@@ -362,7 +352,7 @@
                         async_run(_n, command.handle).then(function (success) {
                             _t.done();
                             _t.append(
-                                builder.line(res + build_lines(success)) + builder.lastLine()
+                                builder.line(res + build_lines(success)) + builder.lastLine(), true
                             );
                         }, function (err) {
                             _t.done();
@@ -370,7 +360,8 @@
                                 builder.line(res) +
                                 builder.line(translator.trans('Something went wrong!'), error) +
                                 builder.systemline(build_lines(err)) +
-                                builder.lastLine()
+                                builder.lastLine(),
+                                true
                             );
                         });
                         return null;
@@ -408,17 +399,35 @@
             return p.promise();
         }
 
-        function bind(terminal) {
+        function scrollBottom(terminal)
+        {
+            var offset = $('.end-input').offset();
+            if (offset) {
+                terminal.$el.find('.terminal-w-c').animate({
+                    scrollTop: offset.top
+                }, {duration: 1});
+            }
+        }
+
+        /**
+         * @param terminal
+         * @param focus 是否自动选中光标
+         */
+        function bind(terminal, focus) {
             var events = {
                 // 光标选中以及移动到最后
                 focus: function (e) {
                     var $input = terminal.$el.find('.input-box'),
                         $last = terminal.$el.find(lastLineClass);
 
-                    $input.focus();
+                    focus && $input.focus();
+                    scrollBottom(terminal);
+
                     $input.off('click').click(function () {
                         var input = this;
-                        $input.focus();
+                        scrollBottom(terminal);
+                        focus && $input.focus();
+
                         setTimeout(function () {
                             move_cursor(input, 1000);
                         }, 30);
@@ -451,7 +460,7 @@
                 }
             };
             ///////////////////////////////////////////////////
-            terminal.$win = $(windowClass);
+            terminal.$win = terminal.$el.find(windowClass);
 
             // 光标选中以及移动到最后
             terminal.$el.off('click').on('click', events.focus.bind(this)).click();
